@@ -3,29 +3,42 @@ import feedparser
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 import time
+<<<<<<< HEAD
 from typing import List, Dict, Optional, Tuple
 import logging
 from datetime import datetime
 from local_cache import LocalCache
+=======
+from typing import List, Dict, Optional
+import logging
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class WebScraper:
+<<<<<<< HEAD
     def __init__(self, delay: float = 1.0, cache_ttl_minutes: int = 30):
+=======
+    def __init__(self, delay: float = 1.0):
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
         """
         Initialize the web scraper with a delay between requests to be respectful.
         
         Args:
             delay: Delay in seconds between requests
+<<<<<<< HEAD
             cache_ttl_minutes: Time-to-live in minutes for cached content
+=======
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
         """
         self.delay = delay
         self.session = requests.Session()
         self.session.headers.update({
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         })
+<<<<<<< HEAD
         self.cache = LocalCache(ttl_minutes=cache_ttl_minutes)
     
     def scrape_url(self, url: str, force_fresh: bool = False) -> Dict[str, str]:
@@ -35,16 +48,28 @@ class WebScraper:
         Args:
             url: URL to scrape
             force_fresh: If True, bypass cache and fetch fresh content
+=======
+    
+    def scrape_url(self, url: str) -> Dict[str, str]:
+        """
+        Scrape content from a single URL.
+        
+        Args:
+            url: URL to scrape
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
             
         Returns:
             Dictionary containing title, content, and metadata
         """
+<<<<<<< HEAD
         # Check cache first if not forcing fresh content
         if not force_fresh:
             cached_content = self.cache.get(url)
             if cached_content:
                 logger.info(f"Using cached content for {url}")
                 return cached_content
+=======
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
         try:
             logger.info(f"Scraping URL: {url}")
             response = self.session.get(url, timeout=15, allow_redirects=True)
@@ -80,6 +105,7 @@ class WebScraper:
             # Clean up content
             content = ' '.join(content.split())
             
+<<<<<<< HEAD
             # Extract publish date if available
             publish_date = None
             date_meta = soup.find('meta', property=['article:published_time', 'article:modified_time', 'og:pubdate']) or \
@@ -97,15 +123,22 @@ class WebScraper:
                 except:
                     pass
             
+=======
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
             # Limit content length
             if len(content) > 5000:
                 content = content[:5000] + "..."
             
+<<<<<<< HEAD
             result = {
+=======
+            return {
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
                 'url': url,
                 'title': title,
                 'content': content,
                 'word_count': len(content.split()),
+<<<<<<< HEAD
                 'scraped_at': datetime.now().isoformat(),
                 'publish_date': publish_date,
                 'is_fresh': True  # Mark as fresh content
@@ -134,11 +167,26 @@ class WebScraper:
                 'url': url,
                 'title': 'Error',
                 'content': content,
+=======
+                'scraped_at': time.strftime('%Y-%m-%d %H:%M:%S')
+            }
+            
+        except Exception as e:
+            logger.error(f"Error scraping {url}: {str(e)}")
+            return {
+                'url': url,
+                'title': 'Error',
+                'content': f'Failed to scrape content: {str(e)}',
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
                 'word_count': 0,
                 'scraped_at': time.strftime('%Y-%m-%d %H:%M:%S')
             }
     
+<<<<<<< HEAD
     def scrape_rss_feed(self, rss_url: str, max_items: int = 10, force_fresh: bool = True) -> List[Dict[str, str]]:
+=======
+    def scrape_rss_feed(self, rss_url: str, max_items: int = 10) -> List[Dict[str, str]]:
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
         """
         Scrape content from an RSS feed.
         
@@ -159,6 +207,7 @@ class WebScraper:
             articles = []
             for entry in feed.entries[:max_items]:
                 if hasattr(entry, 'link'):
+<<<<<<< HEAD
                     # First check cache for non-force-fresh requests
                     article_data = None
                     if not force_fresh:
@@ -171,16 +220,26 @@ class WebScraper:
                         if article_data.get('title') != 'Error':
                             self.cache.set(entry.link, article_data)
                     
+=======
+                    article_data = self.scrape_url(entry.link)
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
                     # Add RSS metadata
                     article_data['rss_title'] = getattr(entry, 'title', '')
                     article_data['rss_summary'] = getattr(entry, 'summary', '')
                     article_data['rss_published'] = getattr(entry, 'published', '')
+<<<<<<< HEAD
                     article_data['is_fresh'] = force_fresh or article_data.get('is_fresh', False)
                     articles.append(article_data)
                     
                     # Add delay between requests only for fresh scraping
                     if force_fresh or article_data.get('is_fresh', False):
                         time.sleep(self.delay)
+=======
+                    articles.append(article_data)
+                    
+                    # Add delay between requests
+                    time.sleep(self.delay)
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
             
             return articles
             
@@ -188,6 +247,7 @@ class WebScraper:
             logger.error(f"Error scraping RSS feed {rss_url}: {str(e)}")
             return []
     
+<<<<<<< HEAD
     def scrape_multiple_urls(self, urls: List[str], force_fresh: bool = True) -> List[Dict[str, str]]:
         """
         Scrape content from multiple URLs with caching support.
@@ -357,6 +417,26 @@ This source typically covers the latest developments and updates in its field. R
         
         return fallback_articles
     
+=======
+    def scrape_multiple_urls(self, urls: List[str]) -> List[Dict[str, str]]:
+        """
+        Scrape content from multiple URLs.
+        
+        Args:
+            urls: List of URLs to scrape
+            
+        Returns:
+            List of dictionaries containing scraped content
+        """
+        articles = []
+        for url in urls:
+            article_data = self.scrape_url(url)
+            articles.append(article_data)
+            time.sleep(self.delay)  # Be respectful to servers
+        
+        return articles
+    
+>>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
     def get_links_from_page(self, url: str, max_links: int = 20) -> List[str]:
         """
         Extract links from a webpage.
