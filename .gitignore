@@ -20,7 +20,6 @@ parts/
 sdist/
 var/
 wheels/
-pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -50,6 +49,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+cover/
 
 # Translations
 *.mo
@@ -72,6 +72,7 @@ instance/
 docs/_build/
 
 # PyBuilder
+.pybuilder/
 target/
 
 # Jupyter Notebook
@@ -82,7 +83,9 @@ profile_default/
 ipython_config.py
 
 # pyenv
-.python-version
+#   For a library or package, you might want to ignore these files since the code is
+#   intended to run in multiple environments; otherwise, check them in:
+# .python-version
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
@@ -91,7 +94,22 @@ ipython_config.py
 #   install all needed dependencies.
 #Pipfile.lock
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# pdm
+#   Similar to Pipfile.lock, it is generally recommended to include pdm.lock in version control.
+#pdm.lock
+#   pdm stores project-wide configurations in .pdm.toml, but it is recommended to not include it
+#   in version control.
+#   https://pdm.fming.dev/#use-with-ide
+.pdm.toml
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/
 
 # Celery stuff
@@ -128,17 +146,62 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Streamlit
-.streamlit/
+# pytype static type analyzer
+.pytype/
 
-# IDE
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
+#  be added to the global gitignore or merged into this project gitignore.  For a PyCharm
+#  project, it is recommended to include the following files:
+#  .idea/
+#  *.iml
+#  *.ipr
+#  *.iws
+#  .idea/
+
+# VS Code
 .vscode/
-.idea/
-*.swp
-*.swo
-*~
 
-# OS
+# Project-specific files
+# User data and sessions
+users.json
+sessions.json
+content_cache.json
+users.json.bak.*
+
+# Temporary files
+newsletter_preview.html
+*.tmp
+*.temp
+
+# Development and documentation files
+ENHANCED_YOUTUBE_PROCESSING.md
+STYLE_DELETE_FIX.md
+STYLE_TRAINING_FIXES.md
+STYLE_TRAINING_UPDATE.md
+STYLE_TRAINING_UX_FIX.md
+WRITING_STYLES_FEATURE.md
+youtube_ip_blocking_solutions.md
+setup_youtube_api.md
+TWITTER_SETUP.md
+
+# Broken/development files
+app_broken.py
+
+# Local setup files
+setup_local.py
+setup_youtube_key.py
+
+# User uploads directory
+users/
+
+# Scripts backups
+scripts/backups/
+
+# OS generated files
 .DS_Store
 .DS_Store?
 ._*
@@ -147,17 +210,16 @@ dmypy.json
 ehthumbs.db
 Thumbs.db
 
-# Temporary files
-*.tmp
-*.temp
-temp/
-tmp/
+# IDE files
+*.swp
+*.swo
+*~
 
 # Logs
 *.log
 logs/
 
-# Database
+# Database files
 *.db
 *.sqlite
 *.sqlite3
@@ -165,22 +227,5 @@ logs/
 # API keys and secrets
 .env.local
 .env.production
-.env.staging
 secrets.json
 config.json
-
-# Model files (if large)
-*.pkl
-*.joblib
-*.h5
-*.hdf5
-models/
-checkpoints/
-
-# Data files (uncomment if you don't want to track data)
-# data/
-# datasets/
-# *.csv
-# *.json
-# *.xlsx
-# *.parquet
