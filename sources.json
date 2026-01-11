@@ -1,0 +1,20 @@
+{
+  "30088083-ec25-41e7-9267-745ec5b35f43": [
+    {
+      "url": "https://openai.com/blog/",
+      "name": "OpenAI Blog",
+      "niche": "AI",
+      "type": "Website",
+      "id": 2,
+      "added_at": "2025-10-23T03:09:27.953878"
+    },
+    {
+      "url": "https://www.youtube.com/@mkbhd",
+      "name": "Marques Brownlee (MKBHD)",
+      "niche": "Technology",
+      "type": "YouTube Channel",
+      "id": 2,
+      "added_at": "2025-10-23T03:12:29.110334"
+    }
+  ]
+}

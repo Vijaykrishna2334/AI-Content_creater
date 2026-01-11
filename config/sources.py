@@ -73,9 +73,9 @@ NEWS_SOURCES = {
     ],
     "Data Science": [
         {
-            "name": "Kaggle Blog",
-            "url": "https://www.kaggle.com/blog",
-            "description": "Data science competitions and insights"
+            "name": "Kaggle Learn",
+            "url": "https://www.kaggle.com/learn",
+            "description": "Kaggle learning resources and updates"
         },
         {
             "name": "KDnuggets",

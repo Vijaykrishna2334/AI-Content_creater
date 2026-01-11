@@ -1,0 +1,23 @@
+# Groq API Configuration
+GROQ_API_KEY=your_groq_api_key_here
+
+# Resend API Configuration
+RESEND_API_KEY=your_resend_api_key_here
+
+# Email Configuration
+FROM_EMAIL=noreply@yourdomain.com
+
+
+# Twitter API Configuration (REQUIRED for real Twitter content)
+TWITTER_API_KEY=your_twitter_api_key_here
+TWITTER_API_SECRET=your_twitter_api_secret_here
+TWITTER_ACCESS_TOKEN=your_twitter_access_token_here
+TWITTER_ACCESS_TOKEN_SECRET=your_twitter_access_token_secret_here
+
+# YouTube Data API Configuration (REQUIRED for YouTube channel processing)
+YOUTUBE_DATA_API_KEY=your_youtube_data_api_key_here
+
+# Optional: Additional configuration
+# MAX_ARTICLES_PER_FEED=5
+# SCRAPING_DELAY=1.0
+# EMAIL_RECIPIENTS=test@example.com,user@example.com
