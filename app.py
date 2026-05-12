@@ -12,14 +12,6 @@ from style_training import StyleAnalyzer, generate_style_prompt
 # Load environment variables
 load_dotenv()
 
-# Set API keys from environment or use defaults
-if not os.getenv('RESEND_API_KEY'):
-    os.environ['RESEND_API_KEY'] = 're_65HYTE8T_HbZMHP675rVtDajK6f7omhY6'
-
-# Debug: Print API key status (remove this in production)
-print(f"DEBUG: GROQ_API_KEY loaded: {bool(os.getenv('GROQ_API_KEY'))}")
-print(f"DEBUG: RESEND_API_KEY loaded: {bool(os.getenv('RESEND_API_KEY'))}")
-print(f"DEBUG: FROM_EMAIL: {os.getenv('FROM_EMAIL', 'Not set')}")
 
 # Set YouTube Data API key from environment
 if os.getenv('YOUTUBE_DATA_API_KEY'):
