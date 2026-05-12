@@ -12,14 +12,6 @@ from style_training import StyleAnalyzer, generate_style_prompt
 # Load environment variables
 load_dotenv()
 
-# Set API keys from environment or use defaults
-if not os.getenv('RESEND_API_KEY'):
-    os.environ['RESEND_API_KEY'] = 're_65HYTE8T_HbZMHP675rVtDajK6f7omhY6'
-
-# Debug: Print API key status (remove this in production)
-print(f"DEBUG: GROQ_API_KEY loaded: {bool(os.getenv('GROQ_API_KEY'))}")
-print(f"DEBUG: RESEND_API_KEY loaded: {bool(os.getenv('RESEND_API_KEY'))}")
-print(f"DEBUG: FROM_EMAIL: {os.getenv('FROM_EMAIL', 'Not set')}")
 
 # Set YouTube Data API key from environment
 if os.getenv('YOUTUBE_DATA_API_KEY'):
@@ -32,368 +24,6 @@ import streamlit_shadcn_ui as ui
 from config.sources import NEWS_SOURCES
 
 st.set_page_config(page_title="CreatorPulse", page_icon="📰", layout="wide")
-
-# ============================================
-# MODERN CSS STYLING SYSTEM
-# ============================================
-def inject_custom_css():
-    """Inject modern, premium CSS styling"""
-    st.markdown("""
-    <style>
-    /* ===== IMPORTS ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-    
-    /* ===== ROOT VARIABLES ===== */
-    :root {
-        --primary: #6366f1;
-        --primary-light: #818cf8;
-        --secondary: #8b5cf6;
-        --accent: #ec4899;
-        --accent-light: #f472b6;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --dark-bg: #0a0a0f;
-        --card-bg: rgba(255, 255, 255, 0.03);
-        --card-border: rgba(255, 255, 255, 0.08);
-        --text-primary: #ffffff;
-        --text-secondary: #94a3b8;
-        --text-muted: #64748b;
-        --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-        --gradient-2: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
-        --glass-bg: rgba(255, 255, 255, 0.05);
-        --glass-border: rgba(255, 255, 255, 0.1);
-    }
-    
-    /* ===== GLOBAL STYLES ===== */
-    .stApp {
-        background: var(--dark-bg);
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    }
-    
-    .stApp > header {
-        background: transparent !important;
-    }
-    
-    /* Hide Streamlit branding */
-    #MainMenu, footer, header[data-testid="stHeader"] {
-        visibility: hidden;
-    }
-    
-    /* ===== SIDEBAR STYLING ===== */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0f0f1a 0%, #151525 100%) !important;
-        border-right: 1px solid var(--glass-border);
-    }
-    
-    [data-testid="stSidebar"] .stRadio > label {
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        padding: 12px 16px;
-        margin: 4px 0;
-        transition: all 0.3s ease;
-    }
-    
-    [data-testid="stSidebar"] .stRadio > label:hover {
-        background: rgba(99, 102, 241, 0.15);
-        border-color: var(--primary);
-        transform: translateX(4px);
-    }
-    
-    /* ===== BUTTON STYLES ===== */
-    .stButton > button {
-        background: var(--gradient-1) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 12px !important;
-        padding: 12px 28px !important;
-        font-weight: 600 !important;
-        font-size: 0.95rem !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px) !important;
-        box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4) !important;
-    }
-    
-    .stButton > button[kind="secondary"] {
-        background: var(--glass-bg) !important;
-        border: 1px solid var(--glass-border) !important;
-        box-shadow: none !important;
-    }
-    
-    .stButton > button[kind="secondary"]:hover {
-        background: rgba(99, 102, 241, 0.15) !important;
-        border-color: var(--primary) !important;
-    }
-    
-    /* ===== INPUT STYLES ===== */
-    .stTextInput > div > div > input,
-    .stTextArea textarea,
-    .stSelectbox > div > div,
-    .stNumberInput input,
-    .stTimeInput input {
-        background: rgba(30, 30, 45, 0.9) !important;
-        border: 1px solid rgba(99, 102, 241, 0.3) !important;
-        border-radius: 12px !important;
-        color: #ffffff !important;
-        padding: 12px 16px !important;
-        transition: all 0.3s ease !important;
-    }
-    
-    .stTextInput > div > div > input::placeholder,
-    .stTextArea textarea::placeholder {
-        color: #94a3b8 !important;
-        opacity: 1 !important;
-    }
-    
-    .stTextInput > div > div > input:focus,
-    .stTextArea textarea:focus {
-        border-color: var(--primary) !important;
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3) !important;
-        background: rgba(40, 40, 60, 0.95) !important;
-    }
-    
-    /* Input labels */
-    .stTextInput label,
-    .stTextArea label,
-    .stSelectbox label,
-    .stNumberInput label,
-    .stTimeInput label,
-    .stCheckbox label {
-        color: #e2e8f0 !important;
-        font-weight: 500 !important;
-    }
-    
-    /* Selectbox dropdown */
-    .stSelectbox > div > div > div {
-        color: #ffffff !important;
-    }
-    
-    /* ===== METRIC CARDS ===== */
-    [data-testid="metric-container"] {
-        background: var(--glass-bg) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 16px !important;
-        padding: 20px !important;
-        backdrop-filter: blur(10px);
-    }
-    
-    /* ===== TAB STYLES ===== */
-    .stTabs [data-baseweb="tab-list"] {
-        background: var(--glass-bg);
-        border-radius: 16px;
-        padding: 6px;
-        gap: 8px;
-        border: 1px solid var(--glass-border);
-    }
-    
-    .stTabs [data-baseweb="tab"] {
-        background: transparent !important;
-        border-radius: 12px !important;
-        color: var(--text-secondary) !important;
-        padding: 12px 24px !important;
-        font-weight: 500 !important;
-    }
-    
-    .stTabs [aria-selected="true"] {
-        background: var(--gradient-1) !important;
-        color: white !important;
-    }
-    
-    /* ===== EXPANDER STYLES ===== */
-    .streamlit-expanderHeader {
-        background: var(--glass-bg) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 12px !important;
-    }
-    
-    /* ===== FORM STYLES ===== */
-    [data-testid="stForm"] {
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 24px;
-        backdrop-filter: blur(10px);
-    }
-    
-    /* ===== ALERT STYLES ===== */
-    .stAlert {
-        background: var(--glass-bg) !important;
-        border: 1px solid var(--glass-border) !important;
-        border-radius: 12px !important;
-        backdrop-filter: blur(10px);
-    }
-    
-    /* ===== CUSTOM CLASSES ===== */
-    .hero-container {
-        text-align: center;
-        padding: 60px 20px;
-        margin-bottom: 40px;
-    }
-    
-    .hero-title {
-        font-size: 4rem;
-        font-weight: 800;
-        background: var(--gradient-1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin-bottom: 16px;
-        line-height: 1.1;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.4rem;
-        color: var(--text-secondary);
-        max-width: 600px;
-        margin: 0 auto 40px;
-        line-height: 1.6;
-    }
-    
-    .feature-card {
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 32px;
-        text-align: center;
-        transition: all 0.4s ease;
-        backdrop-filter: blur(10px);
-        height: 100%;
-    }
-    
-    .feature-card:hover {
-        transform: translateY(-8px);
-        border-color: var(--primary);
-        box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
-    }
-    
-    .feature-icon {
-        font-size: 3rem;
-        margin-bottom: 16px;
-        display: block;
-    }
-    
-    .feature-title {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 12px;
-    }
-    
-    .feature-desc {
-        color: var(--text-secondary);
-        font-size: 0.95rem;
-        line-height: 1.6;
-    }
-    
-    .glass-card {
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
-        padding: 32px;
-        backdrop-filter: blur(10px);
-    }
-    
-    .gradient-text {
-        background: var(--gradient-1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-    }
-    
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin: 30px 0;
-    }
-    
-    .stat-card {
-        background: var(--glass-bg);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        padding: 24px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-    
-    .stat-card:hover {
-        border-color: var(--primary);
-        transform: translateY(-4px);
-    }
-    
-    .stat-value {
-        font-size: 2.5rem;
-        font-weight: 800;
-        background: var(--gradient-1);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    .stat-label {
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        margin-top: 8px;
-    }
-    
-    .section-header {
-        font-size: 2rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        margin-bottom: 8px;
-    }
-    
-    .section-subheader {
-        color: var(--text-secondary);
-        font-size: 1.1rem;
-        margin-bottom: 32px;
-    }
-    
-    /* ===== ANIMATIONS ===== */
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-    }
-    
-    @keyframes pulse-glow {
-        0%, 100% { box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
-        50% { box-shadow: 0 0 40px rgba(99, 102, 241, 0.5); }
-    }
-    
-    .animate-float {
-        animation: float 3s ease-in-out infinite;
-    }
-    
-    .animate-pulse {
-        animation: pulse-glow 2s ease-in-out infinite;
-    }
-    
-    /* ===== SCROLLBAR ===== */
-    ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-    }
-    
-    ::-webkit-scrollbar-track {
-        background: var(--dark-bg);
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        background: var(--glass-border);
-        border-radius: 4px;
-    }
-    
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--primary);
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# Inject CSS on every page load
-inject_custom_css()
 
 # Initialize managers
 auth_manager = AuthManager()
@@ -576,167 +206,76 @@ def remove_scheduled_job(user_id):
         return False
 
 def show_login_page():
-    """Display modern login/signup page with hero section"""
+    """Display login/signup page"""
+    st.title("📰 CreatorPulse")
+    st.caption("Your AI-powered content co-pilot for Independent Creators")
     
-    # Hero Section
-    st.markdown("""
-    <div class="hero-container">
-        <div class="hero-title animate-float">📰 CreatorPulse</div>
-        <div class="hero-subtitle">
-            Your AI-powered content co-pilot for Independent Creators. 
-            Transform any source into stunning newsletters in seconds.
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    tab1, tab2 = st.tabs(["Login", "Sign Up"])
     
-    # Feature Cards Section
-    st.markdown('<h2 style="text-align: center; color: white; margin-bottom: 8px;">Why Choose CreatorPulse?</h2>', unsafe_allow_html=True)
-    st.markdown('<p style="text-align: center; color: #94a3b8; margin-bottom: 40px;">Everything you need to create professional newsletters</p>', unsafe_allow_html=True)
+    with tab1:
+        st.subheader("Login to Your Account")
+        with st.form("login_form"):
+            email = st.text_input("Email", type="default")
+            password = st.text_input("Password", type="password")
+            login_btn = st.form_submit_button("Login", type="primary")
+            
+            if login_btn:
+                if email and password:
+                    result = auth_manager.login(email, password)
+                    if result["success"]:
+                        st.session_state.user = result["user"]
+                        st.session_state.session_id = result["session_id"]
+                        st.success("Login successful!")
+                        st.rerun()
+                    else:
+                        st.error(result["error"])
+                else:
+                    st.error("Please fill in all fields")
     
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.markdown("""
-        <div class="feature-card">
-            <span class="feature-icon">🌐</span>
-            <div class="feature-title">Multi-Source Scraping</div>
-            <div class="feature-desc">Aggregate content from websites, RSS feeds, YouTube, and Twitter automatically</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div class="feature-card">
-            <span class="feature-icon">🤖</span>
-            <div class="feature-title">AI-Powered</div>
-            <div class="feature-desc">Groq LLM summarizes and transforms content into engaging newsletters</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div class="feature-card">
-            <span class="feature-icon">✨</span>
-            <div class="feature-title">Style Training</div>
-            <div class="feature-desc">Train the AI on your unique writing voice for personalized content</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown("""
-        <div class="feature-card">
-            <span class="feature-icon">📧</span>
-            <div class="feature-title">Auto-Delivery</div>
-            <div class="feature-desc">Schedule automatic newsletter delivery to your subscribers</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    
-    # Login/Signup Section with centered layout
-    col_left, col_center, col_right = st.columns([1, 2, 1])
-    
-    with col_center:
-        st.markdown("""
-        <div style="text-align: center; margin-bottom: 24px;">
-            <h2 style="color: white; margin-bottom: 8px;">Get Started</h2>
-            <p style="color: #94a3b8;">Join thousands of creators using CreatorPulse</p>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        tab1, tab2 = st.tabs(["🔐 Login", "✨ Sign Up"])
-        
-        with tab1:
-            with st.form("login_form", clear_on_submit=False):
-                st.markdown('<p style="color: #94a3b8; margin-bottom: 16px;">Welcome back! Enter your credentials</p>', unsafe_allow_html=True)
-                email = st.text_input("📧 Email", placeholder="your@email.com")
-                password = st.text_input("🔒 Password", type="password", placeholder="Enter your password")
-                
-                col_btn1, col_btn2 = st.columns([2, 1])
-                with col_btn1:
-                    login_btn = st.form_submit_button("Login to Dashboard", type="primary", use_container_width=True)
-                
-                if login_btn:
-                    if email and password:
-                        result = auth_manager.login(email, password)
+    with tab2:
+        st.subheader("Create New Account")
+        with st.form("signup_form"):
+            name = st.text_input("Full Name")
+            email = st.text_input("Email", type="default")
+            password = st.text_input("Password", type="password")
+            confirm_password = st.text_input("Confirm Password", type="password")
+            signup_btn = st.form_submit_button("Sign Up", type="primary")
+            
+            if signup_btn:
+                if name and email and password and confirm_password:
+                    if password != confirm_password:
+                        st.error("Passwords do not match")
+                    elif len(password) < 6:
+                        st.error("Password must be at least 6 characters")
+                    else:
+                        result = auth_manager.signup(email, password, name)
                         if result["success"]:
-                            st.session_state.user = result["user"]
-                            st.session_state.session_id = result["session_id"]
-                            st.success("✅ Login successful! Redirecting...")
-                            st.rerun()
+                            st.success("Account created successfully! Please login.")
                         else:
-                            st.error(f"❌ {result['error']}")
-                    else:
-                        st.error("Please fill in all fields")
-        
-        with tab2:
-            with st.form("signup_form", clear_on_submit=False):
-                st.markdown('<p style="color: #94a3b8; margin-bottom: 16px;">Create your free account</p>', unsafe_allow_html=True)
-                name = st.text_input("👤 Full Name", placeholder="John Doe")
-                email = st.text_input("📧 Email", placeholder="your@email.com", key="signup_email")
-                password = st.text_input("🔒 Password", type="password", placeholder="Min. 6 characters", key="signup_password")
-                confirm_password = st.text_input("🔒 Confirm Password", type="password", placeholder="Confirm your password")
-                
-                signup_btn = st.form_submit_button("Create Free Account", type="primary", use_container_width=True)
-                
-                if signup_btn:
-                    if name and email and password and confirm_password:
-                        if password != confirm_password:
-                            st.error("❌ Passwords do not match")
-                        elif len(password) < 6:
-                            st.error("❌ Password must be at least 6 characters")
-                        else:
-                            result = auth_manager.signup(email, password, name)
-                            if result["success"]:
-                                st.success("✅ Account created successfully! Please login.")
-                                st.balloons()
-                            else:
-                                st.error(f"❌ {result['error']}")
-                    else:
-                        st.error("Please fill in all fields")
-    
-    # Footer
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style="text-align: center; padding: 40px 20px; border-top: 1px solid rgba(255,255,255,0.1);">
-        <p style="color: #64748b; font-size: 0.9rem;">
-            Built with ❤️ for Independent Creators | Powered by Groq AI
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+                            st.error(result["error"])
+                else:
+                    st.error("Please fill in all fields")
 
 def show_main_app():
     """Display main application interface"""
     user = get_current_user()
     
-    # Sidebar navigation with modern styling
+    
+    # Sidebar navigation
     with st.sidebar:
-        # User profile section
-        st.markdown(f"""
-        <div style="text-align: center; padding: 20px 0; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px;">
-            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
-                {user['name'][0].upper()}
-            </div>
-            <div style="color: white; font-weight: 600; font-size: 1.1rem;">{user['name']}</div>
-            <div style="color: #64748b; font-size: 0.85rem;">{user.get('email', '')}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.header(f"Welcome, {user['name']}!")
         
         # Navigation
-        st.markdown('<p style="color: #64748b; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Navigation</p>', unsafe_allow_html=True)
-        
         page = st.radio("Navigate", [
             "🏠 Dashboard",
             "📝 Style Training", 
             "🔗 Source Management",
             "📰 Generate Draft",
             "⚙️ Settings"
-        ], label_visibility="collapsed")
-        
-        st.markdown("<br><br>", unsafe_allow_html=True)
+        ])
         
         # Logout button
-        if st.button("🚪 Logout", use_container_width=True, type="secondary"):
+        if st.button("Logout"):
             if 'session_id' in st.session_state:
                 auth_manager.logout(st.session_state.session_id)
             for key in list(st.session_state.keys()):
@@ -756,117 +295,46 @@ def show_main_app():
         show_settings(user)
 
 def show_dashboard(user):
-    """Display modern user dashboard"""
+    """Display user dashboard"""
+    st.title("📊 Dashboard")
     
-    # Dashboard Header
-    st.markdown(f"""
-    <div style="margin-bottom: 32px;">
-        <h1 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 8px;">
-            Welcome back, <span class="gradient-text">{user['name'].split()[0]}</span>! 👋
-        </h1>
-        <p style="color: #94a3b8; font-size: 1.1rem;">
-            Here's what's happening with your newsletters today
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
     
     # Check if user has auto-delivery enabled
     user_job = next((job for job in st.session_state.scheduled_jobs if job['user_id'] == user['user_id']), None)
     
-    # Get user stats
-    try:
-        sources = local_storage.get_user_sources(user['user_id'])
-        sources_count = len(sources) if sources else 0
-    except:
-        sources_count = 0
-    
-    has_style = user.get('style_profile') is not None
-    
-    # Modern Stat Cards
-    st.markdown("""
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-value">{}</div>
-            <div class="stat-label">📧 Auto-Delivery</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">{}</div>
-            <div class="stat-label">🔗 Content Sources</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">{}</div>
-            <div class="stat-label">✨ Writing Style</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value">∞</div>
-            <div class="stat-label">📰 Newsletters</div>
-        </div>
-    </div>
-    """.format(
-        "ON" if user_job else "OFF",
-        sources_count,
-        "Trained" if has_style else "Default"
-    ), unsafe_allow_html=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    # Status Alert
-    if user_job:
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(6, 78, 59, 0.2)); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 1.5rem;">✅</span>
-                <div>
-                    <div style="color: #10b981; font-weight: 600; font-size: 1.1rem;">Auto-Delivery Active</div>
-                    <div style="color: #94a3b8;">Next newsletter at <strong style="color: white;">{user_job['delivery_time']}</strong> to <strong style="color: white;">{user_job['email']}</strong></div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 1.5rem;">💡</span>
-                <div>
-                    <div style="color: #818cf8; font-weight: 600; font-size: 1.1rem;">Set Up Auto-Delivery</div>
-                    <div style="color: #94a3b8;">Go to <strong style="color: white;">Settings</strong> to enable automatic newsletter delivery</div>
-                </div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Quick Actions
-    st.markdown('<h3 style="color: white; margin-bottom: 16px;">⚡ Quick Actions</h3>', unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns(3)
+    # Status Cards
+    col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("""
-        <div class="feature-card" style="padding: 24px;">
-            <span style="font-size: 2rem;">📰</span>
-            <div style="color: white; font-weight: 600; margin: 12px 0 8px;">Generate Newsletter</div>
-            <div style="color: #94a3b8; font-size: 0.9rem;">Create a new draft from your sources</div>
-        </div>
-        """, unsafe_allow_html=True)
+        if user_job:
+            st.metric(
+                "Auto-Delivery",
+                "✅ Active",
+                f"Next: {user_job['delivery_time']}"
+            )
+        else:
+            st.metric(
+                "Auto-Delivery",
+                "❌ Inactive",
+                "Enable in Settings"
+            )
     
     with col2:
-        st.markdown("""
-        <div class="feature-card" style="padding: 24px;">
-            <span style="font-size: 2rem;">🔗</span>
-            <div style="color: white; font-weight: 600; margin: 12px 0 8px;">Manage Sources</div>
-            <div style="color: #94a3b8; font-size: 0.9rem;">Add websites, RSS, YouTube channels</div>
-        </div>
-        """, unsafe_allow_html=True)
+        st.metric(
+            "Status",
+            "Ready",
+            "Generate your first draft"
+        )
     
-    with col3:
-        st.markdown("""
-        <div class="feature-card" style="padding: 24px;">
-            <span style="font-size: 2rem;">✨</span>
-            <div style="color: white; font-weight: 600; margin: 12px 0 8px;">Train Your Style</div>
-            <div style="color: #94a3b8; font-size: 0.9rem;">Upload newsletters to train AI on your voice</div>
-        </div>
-        """, unsafe_allow_html=True)
+    # Auto-delivery status
+    if user_job:
+        st.success(f"📧 **Automatic delivery is ACTIVE** - Next newsletter will be sent at {user_job['delivery_time']} to {user_job['email']}")
+    else:
+        st.info("ℹ️ **Automatic delivery is INACTIVE** - Go to Settings to enable daily newsletter delivery")
+    
+    # Getting Started
+    st.subheader("Getting Started")
+    st.info("📝 **Ready to create content?** Go to 'Generate Draft' to create your first newsletter draft!")
 
 def load_user_data_fallback(user_id):
     """Load user data from local file as fallback"""
@@ -884,18 +352,8 @@ def load_user_data_fallback(user_id):
 
 def show_style_training(user):
     """Display style training interface"""
-    
-    # Modern page header
-    st.markdown("""
-    <div style="margin-bottom: 32px;">
-        <h1 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 8px;">
-            <span class="gradient-text">📝 Style Training</span>
-        </h1>
-        <p style="color: #94a3b8; font-size: 1.1rem;">
-            Upload your past newsletters to train the AI on your unique voice
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("📝 Style Training")
+    st.caption("Upload your past newsletters to train the AI on your unique voice")
     
     # Try to load user data from local file if database fails
     if not user or not user.get('style_profile'):
@@ -929,11 +387,13 @@ def show_style_training(user):
         with col1:
             if st.button("Retrain Style Profile", use_container_width=True):
                 st.session_state.retrain_style = True
-                st.rerun()
+                # Use session state to trigger UI update without full rerun
+                st.session_state.style_retrain_triggered = True
         with col2:
             if st.button("Train Custom Style", use_container_width=True, type="secondary"):
                 st.session_state.train_custom_style = True
-                st.rerun()
+                # Use session state to trigger UI update without full rerun
+                st.session_state.style_train_triggered = True
         with col3:
             if st.button("🗑️ Delete Style Profile", use_container_width=True, type="secondary"):
                 try:
@@ -941,11 +401,10 @@ def show_style_training(user):
                     auth_manager.update_user_data(user['user_id'], {
                         'style_profile': None
                     })
-                    # Update session state immediately
-                    st.session_state.user['style_profile'] = None
                     st.success("✅ Style profile deleted successfully!")
                     st.balloons()
-                    st.rerun()
+                    # Use session state to trigger UI update without full rerun
+                    st.session_state.style_deleted = True
                 except Exception as e:
                     st.error(f"Error deleting style profile: {str(e)}")
     
@@ -1001,15 +460,14 @@ def show_style_training(user):
                     auth_manager.update_user_data(user['user_id'], {
                         'style_profile': style_profile
                     })
-                    # Update session state immediately
-                    st.session_state.user['style_profile'] = style_profile
                     # Clear any training session state
                     if 'train_custom_style' in st.session_state:
                         del st.session_state.train_custom_style
                     if 'retrain_style' in st.session_state:
                         del st.session_state.retrain_style
                     st.success("✅ Professional style selected!")
-                    st.rerun()
+                    # Use session state to trigger UI update without full rerun
+                    st.session_state.style_selected = True
         
         with col2:
             with st.container():
@@ -1033,15 +491,14 @@ def show_style_training(user):
                     auth_manager.update_user_data(user['user_id'], {
                         'style_profile': style_profile
                     })
-                    # Update session state immediately
-                    st.session_state.user['style_profile'] = style_profile
                     # Clear any training session state
                     if 'train_custom_style' in st.session_state:
                         del st.session_state.train_custom_style
                     if 'retrain_style' in st.session_state:
                         del st.session_state.retrain_style
                     st.success("✅ Casual style selected!")
-                    st.rerun()
+                    # Use session state to trigger UI update without full rerun
+                    st.session_state.style_selected = True
         
         with col3:
             with st.container():
@@ -1065,15 +522,14 @@ def show_style_training(user):
                     auth_manager.update_user_data(user['user_id'], {
                         'style_profile': style_profile
                     })
-                    # Update session state immediately
-                    st.session_state.user['style_profile'] = style_profile
                     # Clear any training session state
                     if 'train_custom_style' in st.session_state:
                         del st.session_state.train_custom_style
                     if 'retrain_style' in st.session_state:
                         del st.session_state.retrain_style
                     st.success("✅ Technical style selected!")
-                    st.rerun()
+                    # Use session state to trigger UI update without full rerun
+                    st.session_state.style_selected = True
         
         st.divider()
     
@@ -1384,60 +840,39 @@ def show_style_training(user):
                         st.write("Please check the console for more details.")
 
 def show_source_management(user):
-    """Display modern source management interface"""
+    """Display source management interface"""
+    st.title("🔗 Source Management")
+    st.caption("Manage your content sources and categorize them by niche")
     
-    # Page Header
-    st.markdown("""
-    <div style="margin-bottom: 32px;">
-        <h1 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 8px;">
-            <span class="gradient-text">🔗 Source Management</span>
-        </h1>
-        <p style="color: #94a3b8; font-size: 1.1rem;">
-            Manage your content sources and categorize them by niche
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Add new source - styled card
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1)); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 16px; padding: 20px; margin-bottom: 24px;">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-            <span style="font-size: 1.5rem;">➕</span>
-            <div style="color: #818cf8; font-weight: 600; font-size: 1.1rem;">Add New Source</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    with st.expander("✨ Click to Add a New Source", expanded=False):
+    # Add new source
+    with st.expander("Add New Source"):
         with st.form("add_source_form"):
-            col1, col2 = st.columns(2)
-            with col1:
-                source_url = st.text_input("🔗 Source URL", placeholder="https://example.com/rss")
-                niche = st.selectbox("📂 Content Niche", [
-                    "AI", "ML", "Technology", "Gaming", "Science", "Business", 
-                    "Politics", "Entertainment", "Sports", "Health", "Other"
-                ])
-            with col2:
-                source_name = st.text_input("📝 Source Name", placeholder="Tech News")
-                source_type = st.selectbox("🏷️ Source Type", ["RSS Feed", "Website", "YouTube Video", "YouTube Channel", "Twitter Profile", "Twitter Hashtag", "Other"])
+            source_url = st.text_input("Source URL", placeholder="https://example.com/rss")
+            source_name = st.text_input("Source Name", placeholder="Tech News")
+            niche = st.selectbox("Content Niche", [
+                "AI", "ML", "Technology", "Gaming", "Science", "Business", 
+                "Politics", "Entertainment", "Sports", "Health", "Other"
+            ])
+            source_type = st.selectbox("Source Type", ["RSS Feed", "Website", "YouTube Video", "YouTube Channel", "Twitter Profile", "Twitter Hashtag", "Other"])
             
             # Show help for YouTube sources
             if source_type in ["YouTube Video", "YouTube Channel"]:
                 if source_type == "YouTube Video":
                     st.info("💡 **YouTube Video**: Use individual video URLs like `https://www.youtube.com/watch?v=VIDEO_ID`")
                 else:
-                    st.info("💡 **YouTube Channel**: Use channel URLs like `https://www.youtube.com/@ChannelName`")
+                    st.info("💡 **YouTube Channel**: Use channel URLs like `https://www.youtube.com/@ChannelName` (Note: Channel support requires YouTube Data API)")
             
             # Show help for Twitter sources
             elif source_type in ["Twitter Profile", "Twitter Hashtag"]:
                 if source_type == "Twitter Profile":
                     st.info("💡 **Twitter Profile**: Use Twitter profile URLs like `https://twitter.com/username` or just `@username`")
                 else:
-                    st.info("💡 **Twitter Hashtag**: Use hashtag like `#AI` or `#MachineLearning`")
+                    st.info("💡 **Twitter Hashtag**: Use hashtag like `#AI` or `#MachineLearning` (Note: Twitter API key required)")
             
-            if st.form_submit_button("➕ Add Source", type="primary", use_container_width=True):
+            if st.form_submit_button("Add Source", type="primary"):
                 if source_url and source_name:
                     try:
+                        # Add source to local storage
                         new_source = {
                             'url': source_url,
                             'name': source_name,
@@ -1447,6 +882,7 @@ def show_source_management(user):
                         }
                         
                         if new_source:
+                            # Also add to local user data for backward compatibility
                             if 'sources' not in user:
                                 user['sources'] = []
                             
@@ -1458,39 +894,18 @@ def show_source_management(user):
                                 "added_at": datetime.now().isoformat()
                             })
                             auth_manager.update_user_data(user['user_id'], {'sources': user['sources']})
-                            st.success("✅ Source added successfully!")
+                            st.success("Source added successfully!")
                             st.rerun()
                         else:
-                            st.error("❌ Failed to add source to database")
+                            st.error("Failed to add source to database")
                     except Exception as e:
-                        st.error(f"❌ Error adding source: {str(e)}")
+                        st.error(f"Error adding source: {str(e)}")
     
-    st.markdown("<br>", unsafe_allow_html=True)
+    # Pre-configured sources
+    st.subheader("📚 Pre-configured Sources")
+    st.caption("Click to add popular sources to your collection")
     
-    # Pre-configured sources header
-    st.markdown("""
-    <h2 style="color: white; margin-bottom: 8px;">📚 Pre-configured Sources</h2>
-    <p style="color: #94a3b8; margin-bottom: 24px;">Click to add popular sources to your collection</p>
-    """, unsafe_allow_html=True)
-    
-    # Define category colors for visual appeal
-    category_colors = {
-        "🤖 AI Sources": ("#6366f1", "#8b5cf6"),
-        "🧠 ML Sources": ("#8b5cf6", "#a855f7"),
-        "💻 Technology Sources": ("#0ea5e9", "#06b6d4"),
-        "🐦 Twitter Sources": ("#1d9bf0", "#60a5fa"),
-        "🎮 Gaming Sources": ("#10b981", "#34d399"),
-        "🔬 Science Sources": ("#f59e0b", "#fbbf24"),
-        "💼 Business Sources": ("#ef4444", "#f87171"),
-        "🏛️ Politics Sources": ("#6b7280", "#9ca3af"),
-        "🎬 Entertainment Sources": ("#ec4899", "#f472b6"),
-        "⚽ Sports Sources": ("#22c55e", "#4ade80"),
-        "🏥 Health Sources": ("#14b8a6", "#2dd4bf"),
-        "📺 YouTube AI/ML Channels": ("#ff0000", "#ff4444"),
-        "📺 YouTube Tech Channels": ("#ff0000", "#ff6666"),
-    }
-    
-    # Define pre-configured sources
+    # Define pre-configured sources based on dropdown categories
     predefined_sources = {
         "🤖 AI Sources": [
             {"name": "OpenAI Blog", "url": "https://openai.com/blog/", "niche": "AI", "type": "Website"},
@@ -1527,101 +942,156 @@ def show_source_management(user):
             {"name": "Kotaku", "url": "https://kotaku.com/", "niche": "Gaming", "type": "Website"},
             {"name": "PC Gamer", "url": "https://www.pcgamer.com/", "niche": "Gaming", "type": "Website"}
         ],
+        "🔬 Science Sources": [
+            {"name": "Nature News", "url": "https://www.nature.com/news", "niche": "Science", "type": "Website"},
+            {"name": "Science Daily", "url": "https://www.sciencedaily.com/", "niche": "Science", "type": "Website"},
+            {"name": "MIT News", "url": "https://news.mit.edu/", "niche": "Science", "type": "Website"},
+            {"name": "Stanford News", "url": "https://news.stanford.edu/", "niche": "Science", "type": "Website"},
+            {"name": "Scientific American", "url": "https://www.scientificamerican.com/", "niche": "Science", "type": "Website"}
+        ],
+        "💼 Business Sources": [
+            {"name": "Harvard Business Review", "url": "https://hbr.org/", "niche": "Business", "type": "Website"},
+            {"name": "Forbes", "url": "https://www.forbes.com/", "niche": "Business", "type": "Website"},
+            {"name": "Bloomberg", "url": "https://www.bloomberg.com/", "niche": "Business", "type": "Website"},
+            {"name": "Wall Street Journal", "url": "https://www.wsj.com/", "niche": "Business", "type": "Website"},
+            {"name": "Financial Times", "url": "https://www.ft.com/", "niche": "Business", "type": "Website"}
+        ],
+        "🏛️ Politics Sources": [
+            {"name": "Politico", "url": "https://www.politico.com/", "niche": "Politics", "type": "Website"},
+            {"name": "The Hill", "url": "https://thehill.com/", "niche": "Politics", "type": "Website"},
+            {"name": "Axios", "url": "https://www.axios.com/", "niche": "Politics", "type": "Website"},
+            {"name": "FiveThirtyEight", "url": "https://fivethirtyeight.com/", "niche": "Politics", "type": "Website"},
+            {"name": "RealClearPolitics", "url": "https://www.realclearpolitics.com/", "niche": "Politics", "type": "Website"}
+        ],
+        "🎬 Entertainment Sources": [
+            {"name": "Variety", "url": "https://variety.com/", "niche": "Entertainment", "type": "Website"},
+            {"name": "The Hollywood Reporter", "url": "https://www.hollywoodreporter.com/", "niche": "Entertainment", "type": "Website"},
+            {"name": "Entertainment Weekly", "url": "https://ew.com/", "niche": "Entertainment", "type": "Website"},
+            {"name": "Deadline", "url": "https://deadline.com/", "niche": "Entertainment", "type": "Website"},
+            {"name": "IndieWire", "url": "https://www.indiewire.com/", "niche": "Entertainment", "type": "Website"}
+        ],
+        "⚽ Sports Sources": [
+            {"name": "ESPN", "url": "https://www.espn.com/", "niche": "Sports", "type": "Website"},
+            {"name": "Sports Illustrated", "url": "https://www.si.com/", "niche": "Sports", "type": "Website"},
+            {"name": "The Athletic", "url": "https://theathletic.com/", "niche": "Sports", "type": "Website"},
+            {"name": "Bleacher Report", "url": "https://bleacherreport.com/", "niche": "Sports", "type": "Website"},
+            {"name": "CBS Sports", "url": "https://www.cbssports.com/", "niche": "Sports", "type": "Website"}
+        ],
+        "🏥 Health Sources": [
+            {"name": "WebMD", "url": "https://www.webmd.com/", "niche": "Health", "type": "Website"},
+            {"name": "Mayo Clinic", "url": "https://www.mayoclinic.org/", "niche": "Health", "type": "Website"},
+            {"name": "Healthline", "url": "https://www.healthline.com/", "niche": "Health", "type": "Website"},
+            {"name": "Medical News Today", "url": "https://www.medicalnewstoday.com/", "niche": "Health", "type": "Website"},
+            {"name": "Harvard Health", "url": "https://www.health.harvard.edu/", "niche": "Health", "type": "Website"}
+        ],
+        "📺 YouTube AI/ML Channels": [
+            {"name": "Two Minute Papers", "url": "https://www.youtube.com/@TwoMinutePapers", "niche": "AI", "type": "YouTube Channel"},
+            {"name": "3Blue1Brown", "url": "https://www.youtube.com/@3blue1brown", "niche": "ML", "type": "YouTube Channel"},
+            {"name": "Lex Fridman", "url": "https://www.youtube.com/@lexfridman", "niche": "AI", "type": "YouTube Channel"},
+            {"name": "Yannic Kilcher", "url": "https://www.youtube.com/@YannicKilcher", "niche": "AI", "type": "YouTube Channel"},
+            {"name": "sentdex", "url": "https://www.youtube.com/@sentdex", "niche": "ML", "type": "YouTube Channel"},
+            {"name": "CodeEmporium", "url": "https://www.youtube.com/@CodeEmporium", "niche": "ML", "type": "YouTube Channel"},
+            {"name": "AI Explained", "url": "https://www.youtube.com/@AIExplained", "niche": "AI", "type": "YouTube Channel"},
+            {"name": "Machine Learning Street Talk", "url": "https://www.youtube.com/@MachineLearningStreetTalk", "niche": "ML", "type": "YouTube Channel"}
+        ],
         "📺 YouTube Tech Channels": [
             {"name": "Marques Brownlee (MKBHD)", "url": "https://www.youtube.com/@mkbhd", "niche": "Technology", "type": "YouTube Channel"},
             {"name": "Linus Tech Tips", "url": "https://www.youtube.com/@LinusTechTips", "niche": "Technology", "type": "YouTube Channel"},
+            {"name": "TechWorld with Nana", "url": "https://www.youtube.com/@TechWorldwithNana", "niche": "Technology", "type": "YouTube Channel"},
             {"name": "Fireship", "url": "https://www.youtube.com/@Fireship", "niche": "Technology", "type": "YouTube Channel"},
-            {"name": "The Verge", "url": "https://www.youtube.com/@TheVerge", "niche": "Technology", "type": "YouTube Channel"}
+            {"name": "The Verge", "url": "https://www.youtube.com/@TheVerge", "niche": "Technology", "type": "YouTube Channel"},
+            {"name": "CNET", "url": "https://www.youtube.com/@CNET", "niche": "Technology", "type": "YouTube Channel"},
+            {"name": "TechCrunch", "url": "https://www.youtube.com/@TechCrunch", "niche": "Technology", "type": "YouTube Channel"},
+            {"name": "Ars Technica", "url": "https://www.youtube.com/@ArsTechnica", "niche": "Technology", "type": "YouTube Channel"}
         ]
     }
     
-    # Display as colorful grid cards
-    cols = st.columns(3)
-    for idx, (category, sources) in enumerate(predefined_sources.items()):
-        color1, color2 = category_colors.get(category, ("#6366f1", "#8b5cf6"))
-        with cols[idx % 3]:
-            st.markdown(f"""
-            <div style="background: linear-gradient(135deg, {color1}22, {color2}11); border: 1px solid {color1}44; border-radius: 16px; padding: 20px; margin-bottom: 16px; min-height: 120px;">
-                <div style="font-size: 1.2rem; font-weight: 600; color: white; margin-bottom: 8px;">{category}</div>
-                <div style="color: #94a3b8; font-size: 0.9rem;">{len(sources)} sources available</div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            with st.expander(f"View & Add {category.split()[1]} Sources"):
-                for i, source in enumerate(sources):
-                    col1, col2 = st.columns([4, 1])
+    # Display predefined sources by category
+    for category, sources in predefined_sources.items():
+        with st.expander(f"{category} ({len(sources)} sources)"):
+            cols = st.columns(2)
+            for i, source in enumerate(sources):
+                with cols[i % 2]:
+                    col1, col2 = st.columns([3, 1])
                     with col1:
-                        st.markdown(f"""
-                        <div style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <div style="color: white; font-weight: 500;">{source['name']}</div>
-                            <div style="color: #64748b; font-size: 0.85rem;">{source['niche']} • {source['type']}</div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        st.write(f"**{source['name']}**")
+                        st.caption(f"{source['url']}")
+                        st.write(f"*{source['niche']} • {source['type']}*")
                     with col2:
-                        if st.button("➕ Add", key=f"add_{category}_{i}", use_container_width=True):
+                        if st.button("➕", key=f"add_{category}_{i}", help="Add this source"):
                             try:
+                                # Check if source already exists in local storage
                                 existing_sources = user.get('sources', [])
                                 existing_urls = [s['url'] for s in existing_sources]
                                 
                                 if source['url'] in existing_urls:
-                                    st.warning("Already added!")
+                                    st.warning("Source already added!")
                                 else:
-                                    if 'sources' not in user:
-                                        user['sources'] = []
+                                    # Add source to local storage
+                                    new_source = {
+                                        'url': source['url'],
+                                        'name': source['name'],
+                                        'niche': source['niche'],
+                                        'type': source['type'],
+                                        'added_at': datetime.now().isoformat()
+                                    }
                                     
-                                    user['sources'].append({
-                                        "url": source['url'],
-                                        "name": source['name'],
-                                        "niche": source['niche'],
-                                        "type": source['type'],
-                                        "added_at": datetime.now().isoformat()
-                                    })
-                                    auth_manager.update_user_data(user['user_id'], {'sources': user['sources']})
-                                    st.success("✅ Added!")
-                                    st.rerun()
+                                    if new_source:
+                                        # Also add to local user data for backward compatibility
+                                        if 'sources' not in user:
+                                            user['sources'] = []
+                                        
+                                        user['sources'].append({
+                                            "url": source['url'],
+                                            "name": source['name'],
+                                            "niche": source['niche'],
+                                            "type": source['type'],
+                                            "added_at": datetime.now().isoformat()
+                                        })
+                                        
+                                        auth_manager.update_user_data(user['user_id'], {'sources': user['sources']})
+                                        st.success("Added!")
+                                        st.rerun()
+                                    else:
+                                        st.error("Failed to add source to database")
                             except Exception as e:
-                                st.error(f"Error: {str(e)}")
+                                st.error(f"Error adding source: {str(e)}")
     
     # Display existing sources
-    st.markdown("<br>", unsafe_allow_html=True)
-    
     try:
+        # Get sources from local storage
         sources = user.get('sources', [])
         if sources:
-            st.markdown(f"""
-            <h2 style="color: white; margin-bottom: 8px;">✅ Your Sources ({len(sources)})</h2>
-            <p style="color: #94a3b8; margin-bottom: 24px;">Your saved content sources for newsletter generation</p>
-            """, unsafe_allow_html=True)
-            
+            st.subheader("Your Sources")
             for i, source in enumerate(sources):
-                # Create a styled card for each source
-                st.markdown(f"""
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; margin-bottom: 12px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="color: white; font-weight: 600; font-size: 1rem;">{source['name']}</div>
-                            <div style="color: #64748b; font-size: 0.85rem; margin-top: 4px;">{source['url'][:60]}...</div>
-                        </div>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <span style="background: rgba(99, 102, 241, 0.2); color: #818cf8; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">{source['niche']}</span>
-                            <span style="background: rgba(16, 185, 129, 0.2); color: #10b981; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">{source['type']}</span>
-                        </div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+                col1, col2, col3, col4 = st.columns([3, 2, 2, 1])
                 
-                # Delete button in a column
-                col1, col2, col3 = st.columns([8, 1, 1])
+                with col1:
+                    st.write(f"**{source['name']}**")
+                    st.caption(source['url'])
+                
+                with col2:
+                    st.write(f"**Niche:** {source['niche']}")
+                
                 with col3:
-                    if st.button("🗑️", key=f"delete_{i}", help="Delete source"):
+                    st.write(f"**Type:** {source['type']}")
+                
+                with col4:
+                    if st.button("🗑️", key=f"delete_{i}"):
                         try:
-                            if 'sources' in user:
-                                user['sources'] = [s for s in user['sources'] if s['url'] != source['url']]
-                                auth_manager.update_user_data(user['user_id'], {'sources': user['sources']})
-                            st.success("✅ Source deleted!")
-                            st.rerun()
+                            # Delete from local storage
+                            if True:  # Always succeed for local storage
+                                # Also update local data
+                                if 'sources' in user:
+                                    user['sources'] = [s for s in user['sources'] if s['url'] != source['url']]
+                                    auth_manager.update_user_data(user['user_id'], {'sources': user['sources']})
+                                st.success("Source deleted!")
+                                # Use session state to trigger UI update without full rerun
+                                st.session_state.source_deleted = True
+                            else:
+                                st.error("Failed to delete source")
                         except Exception as e:
-                            st.error(f"Error: {str(e)}")
+                            st.error(f"Error deleting source: {str(e)}")
         else:
             # No sources found
             if 'sources' in user and user['sources']:
@@ -1674,18 +1144,8 @@ def show_source_management(user):
 
 def show_draft_generation(user):
     """Display draft generation interface"""
-    
-    # Modern page header
-    st.markdown("""
-    <div style="margin-bottom: 32px;">
-        <h1 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 8px;">
-            <span class="gradient-text">📰 Generate Newsletter</span>
-        </h1>
-        <p style="color: #94a3b8; font-size: 1.1rem;">
-            Create stunning newsletters from your sources with AI-powered summarization
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("📰 Generate Draft")
+    st.caption("Generate a personalized newsletter draft using your style and sources")
     
     # Check prerequisites - Make style training optional
     has_style_profile = ('style_profile' in user and 
@@ -1997,21 +1457,10 @@ def show_draft_generation(user):
 
 def show_settings(user):
     """Display settings interface"""
-    
-    # Modern page header
-    st.markdown("""
-    <div style="margin-bottom: 32px;">
-        <h1 style="color: white; font-size: 2.5rem; font-weight: 700; margin-bottom: 8px;">
-            <span class="gradient-text">⚙️ Settings</span>
-        </h1>
-        <p style="color: #94a3b8; font-size: 1.1rem;">
-            Configure your newsletter delivery and preferences
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.title("⚙️ Settings")
     
     # Delivery settings
-    st.markdown('<h3 style="color: white; margin-bottom: 16px;">📧 Delivery Settings</h3>', unsafe_allow_html=True)
+    st.subheader("Delivery Settings")
     with st.form("delivery_settings"):
         delivery_time = st.time_input("Daily delivery time", 
                                     value=datetime.strptime(user.get('delivery_settings', {}).get('time', '08:00'), '%H:%M').time())

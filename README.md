@@ -1,402 +1,239 @@
-# 📰 CreatorPulse - AI Newsletter Generator
+# AI Content Creator - Newsletter Generator
 
-<div align="center">
+A complete content generation and distribution system that scrapes content from various sources, processes it with AI, and sends personalized newsletters via email.
 
-![CreatorPulse Banner](./screenshots/landing_page.png)
+## 🚀 Features
 
-**Your AI-Powered Content Co-Pilot for Independent Creators**
-
-Transform any source into stunning newsletters in seconds with AI-powered summarization.
-
-[![Dark Theme](https://img.shields.io/badge/Theme-Dark%20Mode-1a1a2e?style=for-the-badge)](https://github.com)
-[![Streamlit](https://img.shields.io/badge/Built%20with-Streamlit-ff4b4b?style=for-the-badge)](https://streamlit.io)
-[![Groq AI](https://img.shields.io/badge/Powered%20by-Groq%20AI-6366f1?style=for-the-badge)](https://groq.com)
-[![Python](https://img.shields.io/badge/Python-3.8+-blue?style=for-the-badge&logo=python)](https://python.org)
-
-[Features](#-features) • [Screenshots](#-screenshots) • [Installation](#%EF%B8%8F-installation) • [Usage](#-usage) • [Documentation](#-documentation)
-
-</div>
-
----
-
-## 🌟 Overview
-
-**CreatorPulse** is a modern, AI-powered newsletter generation platform designed for independent creators, bloggers, and content curators. It automatically aggregates content from multiple sources, uses advanced AI to summarize and analyze, and generates beautiful, personalized newsletters—all with a stunning dark-mode interface.
-
-### Why CreatorPulse?
-
-- 🎨 **Modern UI**: Premium dark theme with gradient accents and glassmorphism effects
-- 🤖 **AI-Powered**: Lightning-fast summarization using Groq's advanced LLM
-- 🔗 **Multi-Source**: Web, RSS, YouTube, Twitter/X support
-- ✨ **Style Training**: Train AI on your unique writing voice
-- 📧 **Auto-Delivery**: Schedule daily/weekly newsletter distribution
-- 🚀 **Fast \u0026 Efficient**: Process multiple sources in seconds
-
----
-
-## ✨ Features
-
-### 🎨 Modern UI Design
-- **Dark Theme**: Professional dark interface with purple/indigo gradient accents
-- **Glassmorphism Effects**: Modern glass-like cards and containers
-- **Smooth Animations**: Hover effects and transitions for enhanced UX
-- **Responsive Layout**: Works beautifully on desktop and mobile
-
-### 🔗 Multi-Source Content Aggregation
-- **Web Scraping**: Extract content from any URL
-- **RSS Feeds**: Automatically parse RSS/Atom feeds
-- **YouTube Integration**: Fetch video transcripts and channel content
-- **Twitter/X Support**: Aggregate tweets from profiles and hashtags
-- **Pre-configured Sources**: 100+ curated sources across 12+ categories
-
-### 🤖 AI-Powered Processing
-- **Groq LLM**: Lightning-fast content summarization (up to 500 tokens/sec)
-- **Style Training**: Upload your past newsletters to train the AI
-- **Custom Writing Styles**: Professional, Casual, or Technical tones
-- **Smart Digests**: Automatically create engaging newsletter content
-- **Key Insights Extraction**: Identify trends and patterns across articles
-
-### 📧 Email Distribution
-- **Resend Integration**: Professional email delivery infrastructure
-- **Auto Scheduling**: Set daily/weekly newsletter delivery times
-- **Beautiful Templates**: HTML email formatting with responsive design
-- **Delivery Management**: Track and manage scheduled newsletters
-
-### 👤 User Management
-- **Authentication System**: Secure user registration and login
-- **Profile Management**: User profiles with style preferences
-- **Source Library**: Save and organize your content sources
-- **Session Management**: Persistent user sessions
-
----
-
-## 📸 Screenshots
-
-### Landing Page
-Modern hero section with gradient logo and feature showcase
-
-![Landing Page](./screenshots/landing_page.png)
-
-### Dashboard
-Personalized dashboard with stats, quick actions, and status cards
-
-![Dashboard](./screenshots/dashboard.png)
-
-### Source Management
-Colorful category organization with 100+ pre-configured sources
-
-![Source Management](./screenshots/source_management.png)
-
----
+- **Web Scraping**: Extract content from URLs and RSS feeds
+- **AI Processing**: Use Groq LLM for content summarization and analysis
+- **Email Distribution**: Send newsletters via Resend email service
+- **Streamlit UI**: User-friendly web interface
+- **Multiple Sources**: Support for custom URLs, RSS feeds, and predefined news sources
 
 ## 📋 Prerequisites
 
-Before you begin, ensure you have the following:
-
-- **Python 3.8+** installed
-- **Groq API Key** - Get from [console.groq.com](https://console.groq.com)
-- **Resend API Key** - Get from [resend.com](https://resend.com)
-- **Valid Email Domain** (for sending emails)
-
----
+- Python 3.8+
+- Groq API key
+- Resend API key
+- Valid email domain (for sending emails)
 
 ## 🛠️ Installation
 
-### 1. Clone the Repository
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd AI-Content_creater
+   ```
 
-```bash
-git clone https://github.com/yourusername/CreatorPulse.git
-cd CreatorPulse
-```
+2. **Create virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
 
-### 2. Create Virtual Environment
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# Linux/Mac
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 4. Configure Environment Variables
-
-Copy the example environment file:
-
-```bash
-cp env_example.txt .env
-```
-
-Edit `.env` and add your API keys:
-
-```env
-GROQ_API_KEY=your_groq_api_key_here
-RESEND_API_KEY=your_resend_api_key_here
-FROM_EMAIL=noreply@yourdomain.com
-```
-
-**Optional API Keys:**
-```env
-YOUTUBE_DATA_API_KEY=your_youtube_key (optional)
-YOUTUBE_PROXY_URL=your_proxy_url (optional)
-```
-
----
+4. **Set up environment variables**
+   ```bash
+   cp env_example.txt .env
+   ```
+   
+   Edit `.env` and add your API keys:
+   ```
+   GROQ_API_KEY=your_groq_api_key_here
+   RESEND_API_KEY=your_resend_api_key_here
+   FROM_EMAIL=noreply@yourdomain.com
+   ```
 
 ## 🚀 Usage
 
-### Starting the Application
+### Running the Streamlit App
 
 ```bash
 streamlit run app.py
 ```
 
-The application will open in your browser at `http://localhost:8501`
+The app will open in your browser at `http://localhost:8501`
 
-### Quick Start Guide
+### Using the Pipeline Directly
 
-1. **Sign Up / Login**
-   - Create a new account or login with existing credentials
+```python
+from content_pipeline import ContentPipeline
 
-2. **Train Your Style** (Optional)
-   - Upload past newsletters to train the AI on your writing voice
-   - Or select a predefined style (Professional, Casual, Technical)
+# Initialize pipeline
+pipeline = ContentPipeline(
+    groq_api_key="your_groq_key",
+    resend_api_key="your_resend_key"
+)
 
-3. **Add Content Sources**
-   - Browse 100+ pre-configured sources
-   - Add custom URLs, RSS feeds, YouTube channels
-   - Organize sources by category
+# Process URLs
+urls = ["https://example.com", "https://news.ycombinator.com"]
+results = pipeline.process_urls(
+    urls=urls,
+    email_recipients=["test@example.com"],
+    digest_title="My Newsletter"
+)
 
-4. **Generate Newsletter**
-   - Select your sources
-   - Choose writing style
-   - Click "Generate" and watch the AI create your newsletter
-
-5. **Schedule Auto-Delivery** (Optional)
-   - Go to Settings
-   - Enable auto-delivery
-   - Set delivery time and recipient email
-
----
+print(f"Processed {len(results['articles'])} articles")
+```
 
 ## 📁 Project Structure
 
 ```
-CreatorPulse/
-├── app.py                    # Main Streamlit application
-├── content_pipeline.py       # Content aggregation orchestrator
-├── groq_processor.py         # Groq LLM integration for summarization
+AI-Content_creater/
+├── app.py                    # Streamlit web application
+├── content_pipeline.py       # Main pipeline orchestrator
 ├── scraper.py               # Web scraping functionality
-├── email_sender.py          # Resend email service integration
-├── auth.py                  # User authentication system
-├── style_training.py        # AI writing style training
-├── writing_styles.py        # Writing style templates
-├── local_storage.py         # User data persistence
-├── youtube_processor.py     # YouTube transcript extraction
+├── groq_processor.py        # Groq LLM integration
+├── email_sender.py          # Resend email service
+├── auth.py                  # Authentication system
+├── db.py                    # Database operations
+├── local_cache.py           # Local caching system
+├── local_storage.py         # Local storage management
+├── style_training.py        # Writing style training
+├── writing_styles.py        # Writing style management
 ├── twitter_processor.py     # Twitter integration
+├── youtube_processor.py     # YouTube integration
 ├── requirements.txt         # Python dependencies
-├── .env                     # Environment variables (create this)
-├── screenshots/             # UI screenshots
-│   ├── landing_page.png
-│   ├── dashboard.png
-│   └── source_management.png
-└── config/
-    └── sources.py          # Pre-configured news sources
+├── .gitignore              # Git ignore rules
+├── env_example.txt         # Environment variables template
+├── sources.json            # News sources configuration
+├── LICENSE                  # MIT License
+├── README.md               # This file
+├── config/
+│   └── sources.py          # Predefined news sources
+├── utils/
+│   ├── __init__.py
+│   └── misc.py             # Utility functions
+├── scripts/                # Maintenance scripts
+│   ├── cleanup_users_uploaded_newsletters.py
+│   ├── run_cleanup.ps1
+│   └── README.md
+├── tests/                  # Test files
+│   ├── __init__.py
+│   └── test_basic.py
+└── docs/                   # Documentation
+    ├── CODE_OF_CONDUCT.md
+    └── CONTRIBUTING.md
 ```
-
----
 
 ## 🔧 Configuration
 
-### Groq API Setup
+### API Keys
 
-1. Visit [console.groq.com](https://console.groq.com)
-2. Create an account or sign in
-3. Navigate to API Keys
-4. Create a new API key
-5. Copy and paste into `.env` file
+1. **Groq API Key**: Get from [console.groq.com](https://console.groq.com)
+2. **Resend API Key**: Get from [resend.com](https://resend.com)
 
-### Resend Email Setup
+### Email Configuration
 
-1. Visit [resend.com](https://resend.com)
-2. Create an account
-3. Add and verify your domain
-4. Configure DNS records as instructed
-5. Create an API key
-6. Copy and paste into `.env` file
+- Set up a domain with Resend
+- Configure DNS records as required by Resend
+- Use a valid sender email address
 
-**Note**: Free tier allows sending to verified email addresses only. Domain verification required for production use.
+## 📊 Pipeline Flow
 
----
+1. **Input**: URLs, RSS feeds, or predefined sources
+2. **Scraping**: Extract content using BeautifulSoup and feedparser
+3. **Processing**: Summarize and analyze with Groq LLM
+4. **Digest Creation**: Generate formatted newsletter content
+5. **Email Sending**: Distribute via Resend email service
 
-## 💡 Key Features Explained
+## 🛠️ Customization
 
-### Style Training
+### Adding New Sources
 
-Upload your past newsletters (TXT, CSV, or JSON format) to train the AI on your unique writing voice. The system analyzes:
-- Tone and formality
-- Sentence structure
-- Vocabulary choices
-- Writing patterns
+Edit `config/sources.py` to add new news sources:
 
-### Multi-Source Processing
+```python
+NEWS_SOURCES = {
+    "Technology": [
+        {
+            "name": "TechCrunch",
+            "url": "https://techcrunch.com",
+            "description": "Latest tech news"
+        }
+    ]
+}
+```
 
-CreatorPulse can process:
-- **Regular URLs**: Any web page
-- **RSS Feeds**: Automatic article aggregation
-- **YouTube Videos**: Extract transcripts and summaries
-- **YouTube Channels**: Fetch latest videos
-- **Twitter Profiles**: Aggregate user tweets
-- **Twitter Hashtags**: Track trending topics
+### Modifying Scraping Logic
 
-### Automated Scheduling
+Edit `scraper.py` to customize content extraction:
 
-Set up recurring newsletter delivery:
-1. Choose delivery time
-2. Set recipient email
-3. Select content sources
-4. Enable auto-delivery
+```python
+def scrape_url(self, url: str) -> Dict[str, str]:
+    # Custom scraping logic here
+    pass
+```
 
-The system runs in the background and automatically generates + sends newsletters at the scheduled time.
+### Customizing AI Processing
 
----
+Edit `groq_processor.py` to modify summarization prompts:
 
-## 🎨 UI Design Philosophy
-
-CreatorPulse features a **modern, premium dark theme** inspired by contemporary design trends:
-
-- **Color Palette**: Deep blacks with purple/indigo gradients
-- **Typography**: Inter font family for clarity
-- **Effects**: Glassmorphism, gradients, smooth animations
-- **Components**: Custom-styled buttons, inputs, and cards
-- **Consistency**: Unified design language across all pages
-
----
+```python
+def summarize_article(self, article: Dict[str, str]) -> str:
+    # Custom summarization logic here
+    pass
+```
 
 ## 🐛 Troubleshooting
 
 ### Common Issues
 
-**Issue**: Streamlit context warning
-```bash
-# Solution: Run with streamlit command, not python
-streamlit run app.py  # ✅ Correct
-python app.py         # ❌ Incorrect
+1. **Streamlit Context Warning**: Run with `streamlit run app.py` instead of `python app.py`
+2. **API Key Errors**: Ensure environment variables are set correctly
+3. **Email Sending Fails**: Check Resend configuration and domain setup
+4. **Scraping Issues**: Some websites may block automated requests
+
+### Debug Mode
+
+Enable debug logging by modifying the logging level:
+
+```python
+logging.basicConfig(level=logging.DEBUG)
 ```
-
-**Issue**: API key errors
-```bash
-# Solution: Check .env file exists and has correct keys
-cat .env  # Linux/Mac
-type .env  # Windows
-```
-
-**Issue**: Email sending fails
-```bash
-# Solution: Verify domain with Resend
-# Check FROM_EMAIL matches verified domain
-```
-
-**Issue**: Web scraping fails
-```bash
-# Solution: Some sites block automated requests
-# Try using RSS feed instead of direct URL
-```
-
----
-
-## 📊 Performance
-
-- **Processing Speed**: 2-5 seconds per article
-- **Newsletter Generation**: ~15-30 seconds for 5-10 articles
-- **Email Delivery**: Instant with Resend
-- **Groq LLM**: Up to 500 tokens/second
-- **Concurrent Requests**: Handles 10+ simultaneous users
-
----
-
-## 🚀 Deployment
-
-### Deploy to Streamlit Cloud (Free)
-
-1. Push code to GitHub
-2. Visit [share.streamlit.io](https://share.streamlit.io)
-3. Connect your GitHub repo
-4. Add secrets (API keys) in Streamlit dashboard
-5. Deploy!
-
-### Deploy to Other Platforms
-
-- **Heroku**: Use Procfile
-- **Railway**: Auto-detect Streamlit app
-- **AWS/GCP**: Use Docker container
-- **DigitalOcean**: Deploy as App Platform
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
----
+## 🤝 Contributing
 
-## 🙏 Acknowledgments
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-- **Groq** - For blazing-fast LLM inference
-- **Resend** - For reliable email delivery
-- **Streamlit** - For the amazing web framework
-- **BeautifulSoup** - For web scraping capabilities
-- **APScheduler** - For background job scheduling
+## 🚀 GitHub Ready
 
----
+This repository is now properly structured for GitHub with:
+
+- **Clean Structure**: Organized files into logical directories (`docs/`, `tests/`, `scripts/`)
+- **Security**: Comprehensive `.gitignore` to exclude sensitive data and temporary files
+- **Documentation**: Complete setup and usage instructions
+- **Testing**: Basic test framework included
+- **Maintenance**: Scripts for cleanup and maintenance
+
+### Files Excluded from GitHub:
+- Virtual environment (`venv/`)
+- User data (`users.json`, `sessions.json`, `content_cache.json`)
+- Cache files (`__pycache__/`, `*.pyc`)
+- Development documentation and notes
+- Temporary files and backups
+
+### Before First Push:
+1. Create a virtual environment: `python -m venv venv`
+2. Activate it: `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Linux/Mac)
+3. Install dependencies: `pip install -r requirements.txt`
+4. Copy `env_example.txt` to `.env` and add your API keys
+5. Run tests: `python -m pytest tests/`
 
 ## 📞 Support
 
-For issues, questions, or suggestions:
-
-- 📧 Email: support@creatorpulse.dev
-- 🐛 [GitHub Issues](https://github.com/yourusername/CreatorPulse/issues)
-- 💬 [Discussions](https://github.com/yourusername/CreatorPulse/discussions)
-
----
-
-## 🎯 Roadmap
-
-- [ ] Mobile app (iOS/Android)
-- [ ] Browser extension
-- [ ] WordPress plugin
-- [ ] Advanced analytics dashboard
-- [ ] Team collaboration features
-- [ ] Custom domain support
-- [ ] PDF export
-- [ ] Notion integration
-
----
-
-<div align="center">
-
-**Built with ❤️ for Independent Creators**
-
-[⬆ Back to Top](#-creatorpulse---ai-newsletter-generator)
-
-</div>
+For issues and questions:
+- Check the troubleshooting section
+- Review the logs for error messages
+- Ensure all API keys are valid and properly configured

@@ -692,7 +692,7 @@ class ContentPipeline:
                         logger.info(f"Fetching latest videos from channel: {channel_url}")
                         latest_videos = self.youtube_processor.get_channel_latest_videos(
                             channel_url, 
-                            max_videos=1, 
+                            max_videos=3, 
                             api_key=youtube_api_key
                         )
                         

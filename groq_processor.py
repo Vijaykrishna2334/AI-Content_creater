@@ -304,77 +304,48 @@ class GroqContentProcessor:
                 Articles to include:
                 {articles_text}
                 
-                CREATE A COMPLETE EMAIL NEWSLETTER with this structure:
+                REQUIRED STRUCTURE (but use {writing_style} style throughout):
                 
-                **GREETING** (2-3 sentences):
-                A warm, welcoming introduction that sets the tone for the newsletter
+                # {digest_title}
+                *{current_date}*
                 
-                **ARTICLE SUMMARIES**:
-                For each article, create a detailed section with:
-                - ### [Article Title]
-                - A comprehensive summary (150-250 words) that fully explains:
-                  * What the article is about
-                  * Key points and findings
-                  * Why it matters
-                  * Important details readers should know
-                - *Source: [Title](URL)*
+                ## Latest News & Updates
                 
-                **CLOSING** (2-3 sentences):
-                A friendly sign-off thanking readers and encouraging engagement
+                For each article, create a section:
+                
+                ### [Article Title]
+                
+                [Summary written in {writing_style} style - NOT generic style]
+                
+                *Source: [Title](URL)*
                 
                 CRITICAL REQUIREMENTS:
-                - Write in {writing_style} style throughout
-                - NO generic filler text
-                - NO meta-commentary like "Summary:" or "Technical analysis reveals:"
-                - Make summaries substantive and informative (150-250 words each)
-                - Include all important details from the original content
-                - Make it feel like a real email someone would enjoy receiving
+                - You MUST use the {writing_style} writing style throughout
+                - Do NOT use generic or default language
+                - Follow the specific tone and language patterns for {writing_style} style
+                - Keep summaries informative and engaging
+                - Focus on the actual content, not generic introductions
+                - Include source links for each article
+                - Make it suitable for email distribution
+                - Remember: You are writing in {writing_style} style, not professional style
                 """
             
             try:
                 digest = self._chat_completion(
                     prompt,
-                    system_prompt=f"""You are a professional newsletter editor creating engaging email newsletters. 
-
-CRITICAL FORMATTING RULES:
-1. Create a complete email newsletter with proper structure:
-   - Start with a friendly greeting
-   - Add a brief introduction paragraph
-   - Present each article with detailed, substantive summaries (150-250 words each)
-   - End with a warm closing
-2. DO NOT add prefixes like "Technical analysis reveals:" or "Summary:" to article sections
-3. Write naturally without meta-commentary about the summary
-4. Use proper markdown headings (###) for article titles
-5. Make each summary informative and engaging - readers should understand the full story
-6. Include source links at the end of each article
-7. Use the {writing_style} writing style consistently throughout
-
-REMEMBER: This is an email newsletter people will receive. Make it professional, readable, and valuable.""",
+                    system_prompt=f"You are a newsletter editor who MUST follow the specified writing style exactly. You are currently using the '{writing_style}' style. CRITICAL: Your writing style must match the '{writing_style}' style guidelines provided in the prompt. Do NOT use a generic or default style. NEVER use casual phrases like 'There is one thing that I really want', 'Well, just copy it then, right?', 'You see', 'Okay, why?' - these are FORBIDDEN in {writing_style} style. Use proper markdown formatting and maintain consistent structure throughout. Never use standalone '##' markers - always use proper headers like '## Article 1: Title'. ALWAYS include exactly ONE source link for each article using the format *Source: [Article Title](URL)* so readers can click to read the full content.",
                     temperature=0.35,
-                    max_tokens=3000,  # Increased from 1500 to allow longer, more complete content
+                    max_tokens=1500,
                 )
                 
-                # Remove any unwanted prefixes that might have been added
-                digest = digest.replace("Technical analysis reveals: ", "")
-                digest = digest.replace("Summary: ", "")
-                digest = digest.replace("Strategic analysis indicates: ", "")
-                digest = digest.replace("Check this out: ", "")
-                
-                # Format the final digest with proper email structure
+                # Format the final digest with proper header
                 formatted_digest = f"""# {digest_title}
 
 *Generated on {current_time}*
 
----
-
-{digest}
-
----
-
-*Thank you for reading! Stay tuned for more updates.*
-"""
+{digest}"""
                 
-                # Normalize repeated source lines
+                # Normalize repeated source lines (collapse 3+ identical source lines to exactly 2)
                 formatted_digest = self._normalize_source_lines(formatted_digest)
                 return formatted_digest
                 
