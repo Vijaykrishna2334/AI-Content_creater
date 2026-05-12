@@ -84,7 +84,6 @@ print(f"Processed {len(results['articles'])} articles")
 
 ```
 AI-Content_creater/
-<<<<<<< HEAD
 ├── app.py                    # Streamlit web application
 ├── content_pipeline.py       # Main pipeline orchestrator
 ├── scraper.py               # Web scraping functionality
@@ -119,18 +118,6 @@ AI-Content_creater/
 └── docs/                   # Documentation
     ├── CODE_OF_CONDUCT.md
     └── CONTRIBUTING.md
-=======
-├── app.py                 # Streamlit web application
-├── content_pipeline.py    # Main pipeline orchestrator
-├── scraper.py            # Web scraping functionality
-├── groq_processor.py     # Groq LLM integration
-├── email_sender.py       # Resend email service
-├── requirements.txt      # Python dependencies
-├── .gitignore           # Git ignore rules
-├── env_example.txt      # Environment variables template
-└── config/
-    └── sources.py       # Predefined news sources
->>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
 ```
 
 ## 🔧 Configuration
@@ -220,7 +207,6 @@ This project is licensed under the MIT License.
 3. Make your changes
 4. Submit a pull request
 
-<<<<<<< HEAD
 ## 🚀 GitHub Ready
 
 This repository is now properly structured for GitHub with:
@@ -245,8 +231,6 @@ This repository is now properly structured for GitHub with:
 4. Copy `env_example.txt` to `.env` and add your API keys
 5. Run tests: `python -m pytest tests/`
 
-=======
->>>>>>> 32eab2a55c2a460898d3aeacbd94ee64ab0f0d15
 ## 📞 Support
 
 For issues and questions:
