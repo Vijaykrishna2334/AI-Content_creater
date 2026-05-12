@@ -1,239 +1,162 @@
-# AI Content Creator - Newsletter Generator
+<div align="center">
 
-A complete content generation and distribution system that scrapes content from various sources, processes it with AI, and sends personalized newsletters via email.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24&height=160&section=header&text=AI%20Content%20Creator&fontSize=40&fontColor=fff&animation=twinkling&fontAlignY=36&desc=Automated%20Newsletter%20Generator%20Powered%20by%20Groq%20LLM&descAlignY=58&descSize=15" width="100%"/>
 
-## 🚀 Features
+[![Python](https://img.shields.io/badge/Python_3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Groq](https://img.shields.io/badge/Groq_LLM-F55036?style=for-the-badge&logo=groq&logoColor=white)](https://groq.com/)
+[![Resend](https://img.shields.io/badge/Resend-000000?style=for-the-badge&logo=mail&logoColor=white)](https://resend.com/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-- **Web Scraping**: Extract content from URLs and RSS feeds
-- **AI Processing**: Use Groq LLM for content summarization and analysis
-- **Email Distribution**: Send newsletters via Resend email service
-- **Streamlit UI**: User-friendly web interface
-- **Multiple Sources**: Support for custom URLs, RSS feeds, and predefined news sources
+**Web scraping · Groq LLM summarization · Automated email delivery · Multi-source support**
 
-## 📋 Prerequisites
+</div>
 
+---
+
+## 🎯 What It Does
+
+AI Content Creator scrapes content from any URL, RSS feed, or predefined news source — then uses **Groq's Llama LLM** to summarize, analyze, and package it into a polished newsletter delivered straight to your subscribers via email.
+
+---
+
+## ✨ Key Features
+
+| Feature | Description |
+|---|---|
+| 🕷️ **Web Scraping** | Extract content from URLs, RSS feeds, and news sources |
+| 🤖 **Groq LLM** | Llama-powered summarization and content analysis |
+| 📧 **Email Delivery** | Automated newsletter sending via Resend API |
+| 🎨 **Streamlit UI** | Full web interface with auth, scheduling, and style training |
+| 🐦 **Twitter Integration** | Pull content from Twitter profiles and hashtags |
+| 📺 **YouTube Integration** | Summarize YouTube video transcripts |
+| 🖊️ **Style Training** | Train the AI on your writing voice from past newsletters |
+| 🔐 **Auth System** | User login, session management, and profile persistence |
+
+---
+
+## 🏗️ How It Works
+
+```
+User adds sources (URLs, RSS, Twitter, YouTube)
+        ↓
+Scraper extracts raw content
+        ↓
+Groq Llama LLM summarizes + analyzes each article
+        ↓
+Digest assembled with user's trained writing style
+        ↓
+Resend API delivers newsletter to subscribers
+        ↓
+Delivery logged → next run scheduled automatically
+```
+
+---
+
+## 🛠 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **UI** | Streamlit — web interface + scheduling dashboard |
+| **AI/LLM** | Groq API + Llama 3 — summarization + style generation |
+| **Scraping** | BeautifulSoup + feedparser — web + RSS extraction |
+| **Email** | Resend API — transactional email delivery |
+| **Auth** | Custom auth with local session management |
+| **Integrations** | Twitter API · YouTube Data API |
+
+---
+
+## ⚡ Quick Start
+
+### Prerequisites
 - Python 3.8+
-- Groq API key
-- Resend API key
-- Valid email domain (for sending emails)
+- Groq API key (free at [console.groq.com](https://console.groq.com))
+- Resend API key (free at [resend.com](https://resend.com))
 
-## 🛠️ Installation
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd AI-Content_creater
-   ```
-
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Set up environment variables**
-   ```bash
-   cp env_example.txt .env
-   ```
-   
-   Edit `.env` and add your API keys:
-   ```
-   GROQ_API_KEY=your_groq_api_key_here
-   RESEND_API_KEY=your_resend_api_key_here
-   FROM_EMAIL=noreply@yourdomain.com
-   ```
-
-## 🚀 Usage
-
-### Running the Streamlit App
+### Setup
 
 ```bash
+# Clone
+git clone https://github.com/Vijaykrishna2334/AI-Content_creater.git
+cd AI-Content_creater
+
+# Create virtual environment
+python -m venv venv
+venv\Scripts\activate      # Windows
+source venv/bin/activate   # Linux/Mac
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp env_example.txt .env
+```
+
+Add to `.env`:
+```env
+GROQ_API_KEY=your_groq_api_key_here
+RESEND_API_KEY=your_resend_api_key_here
+FROM_EMAIL=noreply@yourdomain.com
+```
+
+```bash
+# Run
 streamlit run app.py
 ```
 
-The app will open in your browser at `http://localhost:8501`
+Open [http://localhost:8501](http://localhost:8501)
 
-### Using the Pipeline Directly
-
-```python
-from content_pipeline import ContentPipeline
-
-# Initialize pipeline
-pipeline = ContentPipeline(
-    groq_api_key="your_groq_key",
-    resend_api_key="your_resend_key"
-)
-
-# Process URLs
-urls = ["https://example.com", "https://news.ycombinator.com"]
-results = pipeline.process_urls(
-    urls=urls,
-    email_recipients=["test@example.com"],
-    digest_title="My Newsletter"
-)
-
-print(f"Processed {len(results['articles'])} articles")
-```
+---
 
 ## 📁 Project Structure
 
 ```
 AI-Content_creater/
-├── app.py                    # Streamlit web application
-├── content_pipeline.py       # Main pipeline orchestrator
-├── scraper.py               # Web scraping functionality
-├── groq_processor.py        # Groq LLM integration
-├── email_sender.py          # Resend email service
-├── auth.py                  # Authentication system
-├── db.py                    # Database operations
-├── local_cache.py           # Local caching system
-├── local_storage.py         # Local storage management
-├── style_training.py        # Writing style training
-├── writing_styles.py        # Writing style management
-├── twitter_processor.py     # Twitter integration
-├── youtube_processor.py     # YouTube integration
-├── requirements.txt         # Python dependencies
-├── .gitignore              # Git ignore rules
-├── env_example.txt         # Environment variables template
-├── sources.json            # News sources configuration
-├── LICENSE                  # MIT License
-├── README.md               # This file
+├── app.py                    # Streamlit web app + UI
+├── content_pipeline.py       # Core pipeline orchestrator
+├── scraper.py                # Web + RSS scraping
+├── groq_processor.py         # Groq LLM integration
+├── email_sender.py           # Resend email delivery
+├── auth.py                   # User authentication
+├── style_training.py         # Writing style AI training
+├── twitter_processor.py      # Twitter API integration
+├── youtube_processor.py      # YouTube API integration
 ├── config/
-│   └── sources.py          # Predefined news sources
-├── utils/
-│   ├── __init__.py
-│   └── misc.py             # Utility functions
-├── scripts/                # Maintenance scripts
-│   ├── cleanup_users_uploaded_newsletters.py
-│   ├── run_cleanup.ps1
-│   └── README.md
-├── tests/                  # Test files
-│   ├── __init__.py
-│   └── test_basic.py
-└── docs/                   # Documentation
-    ├── CODE_OF_CONDUCT.md
-    └── CONTRIBUTING.md
+│   └── sources.py            # Predefined news sources
+├── utils/                    # Shared utilities
+├── scripts/                  # Maintenance scripts
+├── tests/                    # Test suite
+├── env_example.txt           # Environment variables template
+└── requirements.txt
 ```
 
-## 🔧 Configuration
+---
 
-### API Keys
-
-1. **Groq API Key**: Get from [console.groq.com](https://console.groq.com)
-2. **Resend API Key**: Get from [resend.com](https://resend.com)
-
-### Email Configuration
-
-- Set up a domain with Resend
-- Configure DNS records as required by Resend
-- Use a valid sender email address
-
-## 📊 Pipeline Flow
-
-1. **Input**: URLs, RSS feeds, or predefined sources
-2. **Scraping**: Extract content using BeautifulSoup and feedparser
-3. **Processing**: Summarize and analyze with Groq LLM
-4. **Digest Creation**: Generate formatted newsletter content
-5. **Email Sending**: Distribute via Resend email service
-
-## 🛠️ Customization
-
-### Adding New Sources
-
-Edit `config/sources.py` to add new news sources:
+## 🔌 Pipeline Usage
 
 ```python
-NEWS_SOURCES = {
-    "Technology": [
-        {
-            "name": "TechCrunch",
-            "url": "https://techcrunch.com",
-            "description": "Latest tech news"
-        }
-    ]
-}
+from content_pipeline import ContentPipeline
+
+pipeline = ContentPipeline(
+    groq_api_key="your_groq_key",
+    resend_api_key="your_resend_key"
+)
+
+results = pipeline.process_urls(
+    urls=["https://techcrunch.com", "https://news.ycombinator.com"],
+    email_recipients=["subscriber@example.com"],
+    digest_title="Weekly AI Digest"
+)
+
+print(f"Processed {len(results['articles'])} articles")
 ```
 
-### Modifying Scraping Logic
+---
 
-Edit `scraper.py` to customize content extraction:
+## 📬 Contact
 
-```python
-def scrape_url(self, url: str) -> Dict[str, str]:
-    # Custom scraping logic here
-    pass
-```
+**Built by [Vijay Krishna](https://github.com/Vijaykrishna2334)**
+- 📧 vijaykrishna2334@gmail.com
+- 💼 [LinkedIn](https://linkedin.com/in/vijaykrishna2334)
 
-### Customizing AI Processing
-
-Edit `groq_processor.py` to modify summarization prompts:
-
-```python
-def summarize_article(self, article: Dict[str, str]) -> str:
-    # Custom summarization logic here
-    pass
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Streamlit Context Warning**: Run with `streamlit run app.py` instead of `python app.py`
-2. **API Key Errors**: Ensure environment variables are set correctly
-3. **Email Sending Fails**: Check Resend configuration and domain setup
-4. **Scraping Issues**: Some websites may block automated requests
-
-### Debug Mode
-
-Enable debug logging by modifying the logging level:
-
-```python
-logging.basicConfig(level=logging.DEBUG)
-```
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 🚀 GitHub Ready
-
-This repository is now properly structured for GitHub with:
-
-- **Clean Structure**: Organized files into logical directories (`docs/`, `tests/`, `scripts/`)
-- **Security**: Comprehensive `.gitignore` to exclude sensitive data and temporary files
-- **Documentation**: Complete setup and usage instructions
-- **Testing**: Basic test framework included
-- **Maintenance**: Scripts for cleanup and maintenance
-
-### Files Excluded from GitHub:
-- Virtual environment (`venv/`)
-- User data (`users.json`, `sessions.json`, `content_cache.json`)
-- Cache files (`__pycache__/`, `*.pyc`)
-- Development documentation and notes
-- Temporary files and backups
-
-### Before First Push:
-1. Create a virtual environment: `python -m venv venv`
-2. Activate it: `venv\Scripts\activate` (Windows) or `source venv/bin/activate` (Linux/Mac)
-3. Install dependencies: `pip install -r requirements.txt`
-4. Copy `env_example.txt` to `.env` and add your API keys
-5. Run tests: `python -m pytest tests/`
-
-## 📞 Support
-
-For issues and questions:
-- Check the troubleshooting section
-- Review the logs for error messages
-- Ensure all API keys are valid and properly configured
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=12,20,24&height=80&section=footer" width="100%"/>
